@@ -1,0 +1,32 @@
+{
+  "name": "zeit-theme",
+  "displayName": "Zeit Theme",
+  "description": "A modular VS Code theme build with Bun",
+  "version": "0.0.1",
+  "publisher": "zeit-vu",
+  "engines": {
+    "vscode": "^1.22.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "contributes": {
+    "themes": [
+      {
+        "label": "Zeit Theme Dark",
+        "uiTheme": "vs-dark",
+        "path": "./themes/dist/zeit-theme-dark.json"
+      }
+    ]
+  },
+  "scripts": {
+    "build": "bun ./themes/scripts/build-theme.mjs",
+    "watch": "bun ./themes/scripts/build-theme.mjs --watch"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

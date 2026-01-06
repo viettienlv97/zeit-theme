@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Strings",
+    "scope": ["string", "string.quoted", "string.template"],
+    "settings": { "foreground": "#a6e3a1" }
+  },
+  {
+    "name": "Comments",
+    "scope": ["comment", "punctuation.definition.comment"],
+    "settings": { "foreground": "#6c7086", "fontStyle": "italic" }
+  },
+  {
+    "name": "Keywords",
+    "scope": ["keyword", "storage.type", "storage.modifier"],
+    "settings": { "foreground": "#f38ba8" }
+  },
+  {
+    "name": "Functions",
+    "scope": ["entity.name.function", "support.function"],
+    "settings": { "foreground": "#89b4fa" }
+  }
+]
