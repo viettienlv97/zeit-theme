@@ -5,7 +5,13 @@ const root = process.cwd()
 const srcDir = path.join(root, 'themes', 'src')
 const outFile = path.join(root, 'themes', 'dist', 'zeit-theme-dark.json')
 
-const files = ['base.json', 'html.json', 'css.json', 'scss.json', 'ts.json']
+const files = [
+  // 'base.json',
+  'html.json',
+  'css.json',
+  'scss.json',
+  'ts.json'
+]
 
 function readJson(p) {
   return JSON.parse(fs.readFileSync(p, 'utf8'))

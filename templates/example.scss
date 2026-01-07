@@ -1,0 +1,953 @@
+/**
+ * SCSS Comprehensive Example File
+ * This file demonstrates various SCSS/Sass features and patterns
+ */
+
+// ============================================================================
+// VARIABLES
+// ============================================================================
+
+// Color variables
+$primary-color: #3498db;
+$secondary-color: #2ecc71;
+$accent-color: #e74c3c;
+$warning-color: #f39c12;
+$info-color: #16a085;
+$dark-color: #2c3e50;
+$light-color: #ecf0f1;
+$white: #ffffff;
+$black: #000000;
+
+// Typography variables
+$font-family-base: 'Arial', 'Helvetica', sans-serif;
+$font-family-heading: 'Georgia', serif;
+$font-family-mono: 'Courier New', monospace;
+$font-size-base: 16px;
+$font-size-small: 14px;
+$font-size-large: 18px;
+$font-size-h1: 2.5rem;
+$font-size-h2: 2rem;
+$font-size-h3: 1.75rem;
+$line-height-base: 1.6;
+
+// Spacing variables
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-xxl: 48px;
+
+// Layout variables
+$container-width: 1200px;
+$border-radius: 8px;
+$border-radius-sm: 4px;
+$border-radius-lg: 12px;
+$box-shadow: 0 2px 8px rgba($black, 0.1);
+$box-shadow-lg: 0 4px 16px rgba($black, 0.15);
+
+// Transition variables
+$transition-speed: 0.3s;
+$transition-timing: ease-in-out;
+
+// Z-index layers
+$z-index-dropdown: 1000;
+$z-index-modal: 2000;
+$z-index-tooltip: 3000;
+
+// Breakpoints
+$breakpoint-mobile: 480px;
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1024px;
+$breakpoint-wide: 1440px;
+
+// ============================================================================
+// MAPS
+// ============================================================================
+
+$colors: (
+  'primary': $primary-color,
+  'secondary': $secondary-color,
+  'accent': $accent-color,
+  'warning': $warning-color,
+  'info': $info-color,
+  'dark': $dark-color,
+  'light': $light-color
+);
+
+$spacing-map: (
+  'xs': $spacing-xs,
+  'sm': $spacing-sm,
+  'md': $spacing-md,
+  'lg': $spacing-lg,
+  'xl': $spacing-xl,
+  'xxl': $spacing-xxl
+);
+
+$breakpoints: (
+  'mobile': $breakpoint-mobile,
+  'tablet': $breakpoint-tablet,
+  'desktop': $breakpoint-desktop,
+  'wide': $breakpoint-wide
+);
+
+// ============================================================================
+// MIXINS
+// ============================================================================
+
+// Flexbox mixins
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Responsive mixin
+@mixin respond-to($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (min-width: map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @warn "Breakpoint #{$breakpoint} not found in $breakpoints map.";
+  }
+}
+
+// Button mixin with parameters
+@mixin button($bg-color: $primary-color, $text-color: $white) {
+  background-color: $bg-color;
+  color: $text-color;
+  padding: $spacing-sm $spacing-md;
+  border: none;
+  border-radius: $border-radius;
+  font-size: $font-size-base;
+  cursor: pointer;
+  transition: all $transition-speed $transition-timing;
+
+  &:hover {
+    background-color: darken($bg-color, 10%);
+    transform: translateY(-2px);
+    box-shadow: $box-shadow;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    background-color: lighten($bg-color, 20%);
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+// Card mixin
+@mixin card($padding: $spacing-md, $shadow: $box-shadow) {
+  background-color: $white;
+  border-radius: $border-radius;
+  padding: $padding;
+  box-shadow: $shadow;
+}
+
+// Truncate text
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Line clamp
+@mixin line-clamp($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// Clearfix
+@mixin clearfix {
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+// Pseudo element
+@mixin pseudo($display: block, $pos: absolute, $content: '') {
+  content: $content;
+  display: $display;
+  position: $pos;
+}
+
+// Triangle
+@mixin triangle($direction, $size, $color) {
+  width: 0;
+  height: 0;
+  border-style: solid;
+
+  @if $direction == 'up' {
+    border-width: 0 ($size / 2) $size ($size / 2);
+    border-color: transparent transparent $color transparent;
+  } @else if $direction == 'down' {
+    border-width: $size ($size / 2) 0 ($size / 2);
+    border-color: $color transparent transparent transparent;
+  } @else if $direction == 'left' {
+    border-width: ($size / 2) $size ($size / 2) 0;
+    border-color: transparent $color transparent transparent;
+  } @else if $direction == 'right' {
+    border-width: ($size / 2) 0 ($size / 2) $size;
+    border-color: transparent transparent transparent $color;
+  }
+}
+
+// ============================================================================
+// FUNCTIONS
+// ============================================================================
+
+// Calculate rem from px
+@function rem($px) {
+  @return #{$px / 16}rem;
+}
+
+// Calculate em from px
+@function em($px, $context: 16) {
+  @return #{$px / $context}em;
+}
+
+// Get color from map
+@function color($color-name) {
+  @return map-get($colors, $color-name);
+}
+
+// Get spacing from map
+@function spacing($size) {
+  @return map-get($spacing-map, $size);
+}
+
+// Strip unit from number
+@function strip-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+  @return $number;
+}
+
+// Power function
+@function pow($number, $exponent) {
+  $result: 1;
+  @if $exponent > 0 {
+    @for $i from 1 through $exponent {
+      $result: $result * $number;
+    }
+  }
+  @return $result;
+}
+
+// ============================================================================
+// PLACEHOLDERS (EXTENDS)
+// ============================================================================
+
+%clearfix {
+  @include clearfix;
+}
+
+%flex-center {
+  @include flex-center;
+}
+
+%card-base {
+  @include card;
+}
+
+%button-base {
+  @include button;
+}
+
+%text-truncate {
+  @include truncate;
+}
+
+// ============================================================================
+// NESTING AND PARENT SELECTOR
+// ============================================================================
+
+.navigation {
+  background-color: $dark-color;
+  padding: $spacing-md;
+
+  // Nested selectors
+  .nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    @extend %flex-between;
+
+    .nav-item {
+      margin: 0 $spacing-sm;
+
+      // Parent selector (&)
+      &:first-child {
+        margin-left: 0;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      // Pseudo-classes with parent selector
+      &:hover {
+        .nav-link {
+          color: $primary-color;
+        }
+      }
+
+      &.active {
+        .nav-link {
+          color: $accent-color;
+          font-weight: bold;
+        }
+      }
+    }
+
+    .nav-link {
+      color: $white;
+      text-decoration: none;
+      transition: color $transition-speed;
+
+      // BEM modifier pattern
+      &--highlighted {
+        background-color: $accent-color;
+        padding: $spacing-xs $spacing-sm;
+        border-radius: $border-radius-sm;
+      }
+    }
+  }
+
+  // Adjacent sibling selector
+  .nav-toggle {
+    display: none;
+
+    @include respond-to('mobile') {
+      display: block;
+    }
+
+    + .nav-list {
+      display: none;
+
+      &.open {
+        display: flex;
+      }
+    }
+  }
+}
+
+// ============================================================================
+// CONTROL DIRECTIVES
+// ============================================================================
+
+// @if, @else if, @else
+@mixin theme-colors($theme: 'light') {
+  @if $theme == 'light' {
+    background-color: $white;
+    color: $dark-color;
+  } @else if $theme == 'dark' {
+    background-color: $dark-color;
+    color: $white;
+  } @else {
+    background-color: $light-color;
+    color: $dark-color;
+  }
+}
+
+// @for loop
+@for $i from 1 through 6 {
+  h#{$i} {
+    font-size: $font-size-h1 - (0.25rem * ($i - 1));
+    margin-bottom: $spacing-md;
+  }
+}
+
+// Generate spacing utility classes
+@for $i from 1 through 10 {
+  .mt-#{$i} {
+    margin-top: $spacing-xs * $i;
+  }
+  .mb-#{$i} {
+    margin-bottom: $spacing-xs * $i;
+  }
+  .ml-#{$i} {
+    margin-left: $spacing-xs * $i;
+  }
+  .mr-#{$i} {
+    margin-right: $spacing-xs * $i;
+  }
+}
+
+// @each loop with list
+$social-colors: (
+  'facebook': #3b5998,
+  'twitter': #1da1f2,
+  'instagram': #e1306c,
+  'linkedin': #0077b5,
+  'youtube': #ff0000
+);
+
+@each $name, $color in $social-colors {
+  .btn-#{$name} {
+    @include button($color, $white);
+  }
+}
+
+// @each loop with map
+@each $breakpoint, $width in $breakpoints {
+  .container-#{$breakpoint} {
+    max-width: $width;
+    margin: 0 auto;
+  }
+}
+
+// @while loop
+$heading-size: $font-size-h1;
+$heading-level: 1;
+
+@while $heading-level <= 6 {
+  .heading-#{$heading-level} {
+    font-size: $heading-size;
+  }
+  $heading-level: $heading-level + 1;
+  $heading-size: $heading-size * 0.85;
+}
+
+// ============================================================================
+// INTERPOLATION
+// ============================================================================
+
+$sides: (top, right, bottom, left);
+
+@each $side in $sides {
+  .border-#{$side} {
+    border-#{$side}: 1px solid $dark-color;
+  }
+
+  .margin-#{$side} {
+    margin-#{$side}: $spacing-md;
+  }
+
+  .padding-#{$side} {
+    padding-#{$side}: $spacing-md;
+  }
+}
+
+// Dynamic property names
+@mixin create-property($property, $value) {
+  #{$property}: $value;
+}
+
+.dynamic-box {
+  @include create-property('background-color', $primary-color);
+  @include create-property('border-radius', $border-radius);
+}
+
+// ============================================================================
+// COMPONENTS
+// ============================================================================
+
+// Button component
+.button {
+  @include button($primary-color, $white);
+
+  &--secondary {
+    @include button($secondary-color, $white);
+  }
+
+  &--outline {
+    background-color: transparent;
+    color: $primary-color;
+    border: 2px solid $primary-color;
+
+    &:hover {
+      background-color: $primary-color;
+      color: $white;
+    }
+  }
+
+  &--large {
+    padding: $spacing-md $spacing-lg;
+    font-size: $font-size-large;
+  }
+
+  &--small {
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-small;
+  }
+}
+
+// Card component
+.card {
+  @extend %card-base;
+
+  &__header {
+    border-bottom: 1px solid $light-color;
+    padding-bottom: $spacing-sm;
+    margin-bottom: $spacing-md;
+
+    h3 {
+      margin: 0;
+      color: $dark-color;
+    }
+  }
+
+  &__body {
+    p {
+      margin: $spacing-sm 0;
+      line-height: $line-height-base;
+    }
+  }
+
+  &__footer {
+    border-top: 1px solid $light-color;
+    padding-top: $spacing-sm;
+    margin-top: $spacing-md;
+    @include flex-between;
+  }
+
+  &--bordered {
+    border: 2px solid $light-color;
+  }
+
+  &--hoverable {
+    transition: all $transition-speed;
+
+    &:hover {
+      box-shadow: $box-shadow-lg;
+      transform: translateY(-4px);
+    }
+  }
+}
+
+// Modal component
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba($black, 0.5);
+  @include flex-center;
+  z-index: $z-index-modal;
+
+  &__content {
+    background-color: $white;
+    border-radius: $border-radius-lg;
+    padding: $spacing-xl;
+    max-width: 600px;
+    width: 90%;
+    position: relative;
+    animation: modal-slide-down 0.3s ease-out;
+  }
+
+  &__close {
+    position: absolute;
+    top: $spacing-md;
+    right: $spacing-md;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: $dark-color;
+
+    &:hover {
+      color: $accent-color;
+    }
+  }
+}
+
+// Form components
+.form {
+  &__group {
+    margin-bottom: $spacing-md;
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: $spacing-xs;
+    font-weight: 600;
+    color: $dark-color;
+  }
+
+  &__input,
+  &__textarea,
+  &__select {
+    width: 100%;
+    padding: $spacing-sm;
+    border: 1px solid lighten($dark-color, 50%);
+    border-radius: $border-radius-sm;
+    font-size: $font-size-base;
+    transition: border-color $transition-speed;
+
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+      box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+    }
+
+    &::placeholder {
+      color: lighten($dark-color, 40%);
+    }
+
+    &--error {
+      border-color: $accent-color;
+
+      &:focus {
+        box-shadow: 0 0 0 3px rgba($accent-color, 0.1);
+      }
+    }
+  }
+
+  &__error-message {
+    color: $accent-color;
+    font-size: $font-size-small;
+    margin-top: $spacing-xs;
+  }
+
+  &__checkbox,
+  &__radio {
+    margin-right: $spacing-xs;
+  }
+}
+
+// Grid system
+.grid {
+  display: grid;
+  gap: $spacing-md;
+
+  &--2-cols {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  &--3-cols {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  &--4-cols {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  &--auto-fit {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+
+  @include respond-to('tablet') {
+    &--responsive {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @include respond-to('desktop') {
+    &--responsive {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+// ============================================================================
+// ANIMATIONS
+// ============================================================================
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes modal-slide-down {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-30px);
+  }
+  60% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Animation utility classes
+.animate {
+  &-fade-in {
+    animation: fade-in 0.5s ease-in;
+  }
+
+  &-slide-left {
+    animation: slide-in-left 0.5s ease-out;
+  }
+
+  &-slide-right {
+    animation: slide-in-right 0.5s ease-out;
+  }
+
+  &-bounce {
+    animation: bounce 1s infinite;
+  }
+
+  &-spin {
+    animation: spin 2s linear infinite;
+  }
+}
+
+// ============================================================================
+// UTILITIES
+// ============================================================================
+
+// Display utilities
+.d-block {
+  display: block;
+}
+.d-inline {
+  display: inline;
+}
+.d-inline-block {
+  display: inline-block;
+}
+.d-flex {
+  display: flex;
+}
+.d-grid {
+  display: grid;
+}
+.d-none {
+  display: none;
+}
+
+// Text utilities
+.text-center {
+  text-align: center;
+}
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
+.text-uppercase {
+  text-transform: uppercase;
+}
+.text-lowercase {
+  text-transform: lowercase;
+}
+.text-capitalize {
+  text-transform: capitalize;
+}
+.text-truncate {
+  @extend %text-truncate;
+}
+
+// Color utilities
+@each $name, $color in $colors {
+  .text-#{$name} {
+    color: $color;
+  }
+
+  .bg-#{$name} {
+    background-color: $color;
+  }
+
+  .border-#{$name} {
+    border-color: $color;
+  }
+}
+
+// Spacing utilities (margin and padding)
+$spacing-values: (
+  '0': 0,
+  'xs': $spacing-xs,
+  'sm': $spacing-sm,
+  'md': $spacing-md,
+  'lg': $spacing-lg,
+  'xl': $spacing-xl
+);
+
+@each $size, $value in $spacing-values {
+  .m-#{$size} {
+    margin: $value;
+  }
+  .mt-#{$size} {
+    margin-top: $value;
+  }
+  .mr-#{$size} {
+    margin-right: $value;
+  }
+  .mb-#{$size} {
+    margin-bottom: $value;
+  }
+  .ml-#{$size} {
+    margin-left: $value;
+  }
+
+  .p-#{$size} {
+    padding: $value;
+  }
+  .pt-#{$size} {
+    padding-top: $value;
+  }
+  .pr-#{$size} {
+    padding-right: $value;
+  }
+  .pb-#{$size} {
+    padding-bottom: $value;
+  }
+  .pl-#{$size} {
+    padding-left: $value;
+  }
+}
+
+// ============================================================================
+// RESPONSIVE DESIGN
+// ============================================================================
+
+.container {
+  max-width: $container-width;
+  margin: 0 auto;
+  padding: 0 $spacing-md;
+
+  @include respond-to('tablet') {
+    padding: 0 $spacing-lg;
+  }
+
+  @include respond-to('desktop') {
+    padding: 0 $spacing-xl;
+  }
+}
+
+.responsive-text {
+  font-size: $font-size-base;
+
+  @include respond-to('tablet') {
+    font-size: $font-size-large;
+  }
+
+  @include respond-to('desktop') {
+    font-size: $font-size-large * 1.2;
+  }
+}
+
+// Hide/show elements on different screens
+.hide-mobile {
+  @media (max-width: $breakpoint-tablet - 1) {
+    display: none;
+  }
+}
+
+.hide-desktop {
+  @media (min-width: $breakpoint-tablet) {
+    display: none;
+  }
+}
+
+// ============================================================================
+// PRINT STYLES
+// ============================================================================
+
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+
+  a[href]:after {
+    content: ' (' attr(href) ')';
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  tr,
+  img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+}
