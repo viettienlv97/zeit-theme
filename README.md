@@ -4,10 +4,11 @@ A modular VS Code theme built with Bun, featuring a modern dark color scheme wit
 
 ## Features
 
-- **Modular Architecture**: Theme is built from separate JSON files for each language/technology
+- **Modular Architecture**: Theme is built from separate TypeScript modules for each language/technology
 - **Built with Bun**: Fast build process using Bun runtime
+- **Type-Safe**: Written in TypeScript for better maintainability and development experience
 - **Dark Theme**: Carefully crafted dark color scheme
-- **Multi-language Support**: Optimized syntax highlighting for HTML, CSS, SCSS, and TypeScript
+- **Multi-language Support**: Optimized syntax highlighting for Vue, CSS, SCSS, and TypeScript
 - **Watch Mode**: Real-time theme rebuilding during development
 
 ## Installation
@@ -64,14 +65,15 @@ bun run watch
 zeit-theme/
 ├── themes/
 │   ├── src/                    # Source theme files
+│   │   ├── types.ts           # TypeScript type definitions
 │   │   ├── colors.json        # UI colors configuration
-│   │   ├── html.json          # HTML syntax highlighting
-│   │   ├── css.json           # CSS syntax highlighting
-│   │   ├── scss.json          # SCSS syntax highlighting
-│   │   ├── ts.json            # TypeScript syntax highlighting
-│   │   └── base.json          # Base token colors (optional)
+│   │   ├── base.json          # Base token colors (optional)
+│   │   ├── vue.ts             # Vue template syntax highlighting
+│   │   ├── css.ts             # CSS syntax highlighting
+│   │   ├── scss.ts            # SCSS syntax highlighting
+│   │   └── typescript.ts      # TypeScript/JavaScript syntax highlighting
 │   ├── scripts/
-│   │   └── build-theme.mjs    # Build script
+│   │   └── build-theme.ts     # Build script (TypeScript)
 │   └── dist/
 │       └── zeit-theme-dark.json  # Generated theme file
 ├── templates/                  # Example files for testing
@@ -81,36 +83,66 @@ zeit-theme/
 
 ### Customization
 
-The theme is built from modular JSON files in `themes/src/`. Each file defines syntax highlighting rules for specific languages:
+The theme is built from modular TypeScript files in `themes/src/`. Each file exports token color configurations for specific languages:
 
 - **colors.json**: UI colors (editor background, sidebar, status bar, etc.)
-- **html.json**: HTML tags and attributes
-- **css.json**: CSS properties and values
-- **scss.json**: SCSS-specific syntax
-- **ts.json**: TypeScript/JavaScript syntax
+- **vue.ts**: Vue template syntax (tags, attributes, directives)
+- **css.ts**: CSS properties and values
+- **scss.ts**: SCSS-specific syntax
+- **typescript.ts**: TypeScript/JavaScript syntax
 
 To customize:
 
-1. Edit the relevant JSON file in `themes/src/`
+1. Edit the relevant `.ts` file in `themes/src/`
 2. Run `bun run build` or use watch mode
 3. Reload the theme in VS Code to see changes
 
 ### Adding New Language Support
 
-1. Create a new JSON file in `themes/src/` (e.g., `python.json`)
-2. Define token color rules using VS Code's TextMate scopes
-3. Add the file to the `files` array in `themes/scripts/build-theme.mjs`
+1. Create a new TypeScript file in `themes/src/` (e.g., `python.ts`)
+2. Define and export token color rules using the `TokenColor` type
+3. Import and add the module to `themes/scripts/build-theme.ts`
 4. Rebuild the theme
 
-Example token color rule:
+Example token color module:
 
-```json
-[
+```typescript
+import type { TokenColor } from './types'
+
+const colors = {
+  function: '#89b4fa',
+  keyword: '#cba6f7',
+  string: '#a6e3a1'
+}
+
+const pythonTokenColors: TokenColor[] = [
   {
-    "name": "Python functions",
-    "scope": ["entity.name.function.python"],
-    "settings": { "foreground": "#89b4fa" }
+    name: 'Python functions',
+    scope: ['entity.name.function.python'],
+    settings: { foreground: colors.function }
+  },
+  {
+    name: 'Python keywords',
+    scope: ['keyword.control.python'],
+    settings: { foreground: colors.keyword }
   }
+]
+
+export default pythonTokenColors
+```
+
+Then add to `build-theme.ts`:
+
+```typescript
+import pythonTokenColors from '../src/python'
+
+// In the build function:
+const tokenColors = [
+  ...vueTokenColors,
+  ...cssTokenColors,
+  ...scssTokenColors,
+  ...typescriptTokenColors,
+  ...pythonTokenColors  // Add your new module
 ]
 ```
 
@@ -118,9 +150,37 @@ Example token color rule:
 
 The theme uses a vibrant color scheme with the following key colors:
 
-- **Blue** (`#89b4fa`, `#05d9e7`): HTML tags, keywords
-- **Yellow** (`#f9e2af`): Attributes, parameters
+- **Blue** (`#89b4fa`, `#05d9e7`): HTML tags, keywords, functions
+- **Yellow** (`#f9e2af`): Attributes, parameters, strings
 - **Pink/Red** (`#ff2a6d`): Operators, punctuation
+- **Green** (`#a6e3a1`): Directives, comments
+
+## Architecture
+
+### Type Safety
+
+The theme uses TypeScript for type safety and better developer experience:
+
+```typescript
+// types.ts
+export interface TokenColor {
+  name?: string
+  scope: string | string[]
+  settings: {
+    foreground?: string
+    background?: string
+    fontStyle?: string
+  }
+}
+```
+
+### Modular Design
+
+Each language module is self-contained and exports a `TokenColor[]` array, making it easy to:
+- Add or remove language support
+- Maintain consistent color schemes
+- Test and debug individual modules
+- Reuse color palettes across languages
 
 ## Contributing
 
@@ -131,6 +191,13 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 3. Commit your changes (`git commit -m 'Add some amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
+
+### Development Tips
+
+- Use `bun run watch` during development for automatic rebuilds
+- Test your changes with the example files in `templates/`
+- Follow the existing code structure and naming conventions
+- Ensure TypeScript type safety is maintained
 
 ## License
 
@@ -145,7 +212,14 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Changelog
 
-### [0.0.4] - Current
+### [0.0.5] - Current
+
+- Migrated from JSON to TypeScript modules for better type safety
+- Improved modular architecture with dedicated language modules
+- Added Vue template support
+- Enhanced development experience with TypeScript
+
+### [0.0.4]
 
 - Modular theme architecture
 - Support for HTML, CSS, SCSS, and TypeScript
