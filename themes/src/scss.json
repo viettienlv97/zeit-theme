@@ -1,7 +1,0 @@
-[
-  {
-    "name": "SCSS variables",
-    "scope": ["variable.other.scss"],
-    "settings": { "foreground": "#f5c2e7" }
-  }
-]
