@@ -2,10 +2,15 @@
   "name": "zeit-theme",
   "displayName": "Zeit Theme",
   "description": "A modular VS Code theme build with Bun",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "publisher": "zeit-vu",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/viettienlv97/zeit-theme.git"
+  },
   "engines": {
-    "vscode": "^1.22.0"
+    "vscode": "^1.22.0",
+    "node": "24"
   },
   "categories": [
     "Themes"
