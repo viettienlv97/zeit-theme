@@ -8,15 +8,7 @@ import type { TokenColor } from './types'
  */
 
 // Color palette for Vue templates
-const colors = {
-  tag: '#89b4fa',
-  attribute: '#f9e2af',
-  punctuation: '#ff2a6d',
-  special: '#05d9e7',
-  directive: '#a6e3a1',
-  string: '#f9e2af',
-  number: '#fab387'
-}
+import { colors } from './colors'
 
 /**
  * Vue Template Scope Hierarchy
@@ -27,46 +19,31 @@ const vueScopes = {
   text: {
     '.html': {
       '.vue': {
-        ' entity': {
-          '.name': {
-            '.tag': {
-              '.template': {
-                '.html': {
-                  '.vue': colors.tag
-                }
-              },
-              _default: colors.tag
-            }
-          },
-          '.other': {
-            '.attribute-name': colors.attribute
-          }
-        },
-        ' meta': {
-          '.tag': {
-            ' entity': {
-              '.name': {
-                '.tag': colors.tag
-              }
-            },
-            ' punctuation': {
-              '.definition': {
-                '.tag': colors.punctuation
-              }
-            }
-          }
-        },
         ' punctuation': {
           '.definition': {
-            '.tag': colors.punctuation,
-            '.string': colors.punctuation
-          },
-          '.separator': {
-            '.key-value': colors.punctuation
+            '.tag': {
+              '.end.html.vue': colors.red
+            },
+            '.begin.html.vue': colors.red
           }
         },
-        ' string': {
-          '.quoted': colors.string
+        '.attribute-shorthand': {
+          '.bind.html.vue': colors.red,
+          '.event.html.vue': colors.red
+        },
+        '.separator': {
+          '.key-value.html.vue': colors.red
+        }
+      },
+      ' entity': {
+        '.name': {
+          '.tag': {
+            '.template.html.vue': colors.leon,
+            '.html': colors.leon
+          }
+        },
+        ' comment': {
+          '.block.html.vue': colors.redTrans
         }
       }
     }
@@ -126,27 +103,6 @@ function mapScopesToTokenColors(
   return result
 }
 
-const vueTokenColors: TokenColor[] = [
-  ...mapScopesToTokenColors(vueScopes),
-  {
-    name: 'HTML: Tags (fallback)',
-    scope: ['entity.name.tag.html', 'punctuation.definition.tag.html'],
-    settings: { foreground: colors.tag }
-  },
-  {
-    name: 'HTML: Attributes (fallback)',
-    scope: ['entity.other.attribute-name.html'],
-    settings: { foreground: colors.attribute }
-  },
-  {
-    name: 'HTML: Special tags (template, script, style)',
-    scope: [
-      'entity.name.tag.template',
-      'entity.name.tag.script',
-      'entity.name.tag.style'
-    ],
-    settings: { foreground: colors.special }
-  }
-]
+const vueTokenColors: TokenColor[] = [...mapScopesToTokenColors(vueScopes)]
 
 export default vueTokenColors
