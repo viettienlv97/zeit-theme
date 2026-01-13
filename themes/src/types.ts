@@ -13,6 +13,6 @@ export interface TokenColor {
 export interface Theme {
   name: string
   type: 'dark' | 'light'
-  colors: Record<string, string>
   tokenColors: TokenColor[]
+  colors: Record<string, string>
 }

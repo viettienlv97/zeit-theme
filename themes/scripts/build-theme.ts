@@ -2,12 +2,6 @@ import path from 'path'
 import fs from 'fs'
 import type { Theme } from '../src/types'
 
-// Import token color modules
-import vueTokenColors from '../src/vue'
-import cssTokenColors from '../src/css'
-import scssTokenColors from '../src/scss'
-import typescriptTokenColors from '../src/typescript'
-
 const root = process.cwd()
 const srcDir = path.join(root, 'themes', 'src')
 const outFile = path.join(root, 'themes', 'dist', 'zeit-theme-dark.json')
@@ -16,8 +10,29 @@ function readJson<T>(p: string): T {
   return JSON.parse(fs.readFileSync(p, 'utf8'))
 }
 
-function build(): void {
-  const colors = readJson<Record<string, string>>(path.join(srcDir, 'colors.json'))
+async function build(): Promise<void> {
+  // Clear the module cache to get fresh imports
+  const modulesToReload = [
+    path.join(srcDir, 'vue.ts'),
+    path.join(srcDir, 'css.ts'),
+    path.join(srcDir, 'scss.ts'),
+    path.join(srcDir, 'typescript.ts'),
+    path.join(srcDir, 'colors.ts')
+  ]
+
+  // Delete cached modules
+  for (const mod of modulesToReload) {
+    delete require.cache[require.resolve(mod)]
+  }
+
+  // Dynamically import fresh modules
+  const vueTokenColors = (await import(`../src/vue.ts?${Date.now()}`)).default
+  const cssTokenColors = (await import(`../src/css.ts?${Date.now()}`)).default
+  const scssTokenColors = (await import(`../src/scss.ts?${Date.now()}`)).default
+  const typescriptTokenColors = (
+    await import(`../src/typescript.ts?${Date.now()}`)
+  ).default
+  const { colors } = await import(`../src/colors.ts?${Date.now()}`)
 
   // Combine all token colors from TypeScript modules
   const tokenColors = [
@@ -33,7 +48,7 @@ function build(): void {
     colors,
     tokenColors
     // semanticHighlighting: true,
-    // semanticTokenColors: {}
+    // semanticTokenColors: {},
   }
 
   fs.mkdirSync(path.dirname(outFile), { recursive: true })
@@ -48,14 +63,11 @@ build()
 if (watch) {
   console.log('Watching for changes...')
   fs.watch(srcDir, { recursive: true }, (eventType, filename) => {
-    if (filename && filename.endsWith('.json')) {
+    if (filename && (filename.endsWith('.json') || filename.endsWith('.ts'))) {
       console.log(`${filename} changed, rebuilding...`)
-      try {
-        build()
-      } catch (err) {
+      build().catch((err) => {
         console.error('Error building theme:', err)
-      }
+      })
     }
   })
 }
-
