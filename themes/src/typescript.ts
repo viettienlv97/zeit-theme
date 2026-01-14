@@ -1,4 +1,16 @@
+import { mapScopesToTokenColors } from './utils'
+import { palette } from './colors'
 import type { TokenColor } from './types'
+
+/**
+ * Typescript Scope Hierarchy
+ * - Keys starting with '.' are concatenated (no space): text.html.vue
+ * - Keys starting with ' ' are separated (with space): text.html.vue entity.name.tag
+ */
+
+const typescriptScopes = {
+  
+}
 
 // TypeScript Token Colors Configuration
 const typescriptTokenColors: TokenColor[] = [
