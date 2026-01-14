@@ -8,7 +8,7 @@ import type { TokenColor } from './types'
  * - Keys starting with ' ' are separated (with space): text.html.vue entity.name.tag
  */
 
-const typescriptScopes = {
+export const typescriptScopes = {
   'source.ts': {
     ' meta.import.ts': {
       ' keyword.control.import.ts': palette.green,
