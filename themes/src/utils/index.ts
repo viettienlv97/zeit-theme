@@ -1,4 +1,7 @@
 import type { TokenColor } from '../types'
+export enum A {
+  RED = 'red',
+}
 
 export function mapScopesToTokenColors(
   scopeObj: Record<string, any>,

@@ -2,7 +2,7 @@
   "name": "zeit-theme",
   "displayName": "Zeit Theme",
   "description": "A modular VS Code theme build with Bun",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "publisher": "zeit-vu",
   "repository": {
     "type": "git",

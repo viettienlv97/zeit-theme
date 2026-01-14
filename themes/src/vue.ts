@@ -1,4 +1,4 @@
-import { mapScopesToTokenColors } from './utils'
+import { A, mapScopesToTokenColors } from './utils'
 import { palette } from './colors'
 import type { TokenColor } from './types'
 
