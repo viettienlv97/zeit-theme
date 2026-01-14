@@ -29,6 +29,8 @@ async function build(): Promise<void> {
   const vueTokenColors = (await import(`../src/vue.ts?${Date.now()}`)).default
   const cssTokenColors = (await import(`../src/css.ts?${Date.now()}`)).default
   const scssTokenColors = (await import(`../src/scss.ts?${Date.now()}`)).default
+  const jsonTokenColors = (await import(`../src/json.ts?${Date.now()}`)).default
+
   const typescriptTokenColors = (
     await import(`../src/typescript.ts?${Date.now()}`)
   ).default
@@ -39,7 +41,8 @@ async function build(): Promise<void> {
     ...vueTokenColors,
     ...cssTokenColors,
     ...scssTokenColors,
-    ...typescriptTokenColors
+    ...typescriptTokenColors,
+    ...jsonTokenColors
   ]
 
   const theme: Theme = {
