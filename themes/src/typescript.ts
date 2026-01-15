@@ -25,6 +25,10 @@ export const typescriptScopes = {
       }
     },
     ' meta.var.expr.ts': {
+      ' variable.other.readwrite.ts': palette.red,
+      ' meta.function-call.ts': {
+        ' entity.name.function.ts': palette.orange
+      },
       ' variable.other.constant.object.ts': palette.violetTrans,
       ' variable.other.constant.object.property.ts': palette.orange,
       ' keyword.operator.assignment.ts': palette.green,
@@ -69,7 +73,7 @@ export const typescriptScopes = {
               palette.redTrans,
             ' punctuation.definition.template-expression.end.ts':
               palette.redTrans,
-              ' variable.other.readwrite.ts': palette.red
+            ' variable.other.readwrite.ts': palette.red
           }
         }
       }
@@ -180,16 +184,16 @@ export const typescriptScopes = {
           ' meta.object.member.ts': {
             ' meta.object-literal.key.ts': palette.orange,
             ' constant.language.boolean.true.ts': palette.violet
-          },
-          ' comment.line.double-slash.ts': {
-            ' ': palette.leonTrans,
-            ' punctuation.definition.comment.ts': palette.violetTrans
           }
         }
       }
     },
 
-    ' punctuation.terminator.statement.ts': palette.green
+    ' punctuation.terminator.statement.ts': palette.green,
+    ' comment.line.double-slash.ts': {
+      ' ': palette.leonTrans,
+      ' punctuation.definition.comment.ts': palette.violetTrans
+    }
   }
 }
 

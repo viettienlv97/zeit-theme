@@ -228,7 +228,7 @@ const emit = defineEmits<{
 }>()
 
 // Composables
-const router = useRouter()
+const router = useRouter(abc)
 const route = useRoute()
 const store = useStore()
 const slots = useSlots()
