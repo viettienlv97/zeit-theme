@@ -25,6 +25,7 @@ export const typescriptScopes = {
       }
     },
     ' meta.var.expr.ts': {
+      ' keyword.control.export.ts': palette.green,
       ' variable.other.readwrite.ts': palette.red,
       ' meta.function-call.ts': {
         ' entity.name.function.ts': palette.orange
@@ -48,6 +49,9 @@ export const typescriptScopes = {
         }
       },
       ' meta.objectliteral.ts': {
+        ' variable.other.object.ts': palette.violetTrans,
+        ' variable.other.property.ts': palette.red,
+        ' keyword.operator.assignment.ts': palette.green,
         ' punctuation.separator.comma.ts': palette.green,
         ' meta.array.literal.ts': {
           ' variable.other.constant.object.ts': palette.violetTrans,
@@ -191,6 +195,11 @@ export const typescriptScopes = {
 
     ' punctuation.terminator.statement.ts': palette.green,
     ' comment.line.double-slash.ts': {
+      ' ': palette.leonTrans,
+      ' punctuation.definition.comment.ts': palette.violetTrans
+    },
+
+    ' comment.block.documentation.ts': {
       ' ': palette.leonTrans,
       ' punctuation.definition.comment.ts': palette.violetTrans
     }
