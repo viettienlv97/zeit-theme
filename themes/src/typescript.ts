@@ -11,10 +11,10 @@ import type { TokenColor } from './types'
 const DEFAULT_DATA = {
   ' punctuation.terminator': palette.blueDark,
   ' punctuation.accessor': palette.green,
-  ' keyword.operator': palette.green,
+  ' keyword.operator': [palette.green, 'italic'],
   ' storage.modifier': [palette.leon, 'italic'],
   ' keyword.control': {
-    ' ': palette.green,
+    ' ': [palette.green, 'italic'],
     '.import': palette.green,
     '.type': [palette.violet, 'italic'],
     '.from': palette.green,
@@ -33,7 +33,7 @@ const DEFAULT_DATA = {
   ' storage.type': [palette.violet, 'italic'],
   ' entity.name.function': [palette.orange, 'italic'],
   ' entity.name.type': [palette.violet, 'italic'],
-  ' meta.object-literal.key': palette.orange,
+  ' meta.object-literal.key': [palette.orange, 'italic'],
   ' constant': {
     ' ': palette.green,
     '.language': [palette.leon, 'italic']
