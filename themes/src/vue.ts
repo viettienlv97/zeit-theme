@@ -18,21 +18,21 @@ import type { TokenColor } from './types'
 const vueScopes = {
   'text.html.vue': {
     ' entity.name.tag': palette.green,
-    ' entity.name.function': palette.orange,
+    ' entity.name.function': [palette.orange, 'italic'],
     ' punctuation.definition.tag': palette.white,
     ' meta.tag.custom': {
-      ' entity.name.tag': palette.violet
+      ' entity.name.tag': [palette.violet, 'italic']
     },
     ' meta.tag.other.unrecognized': {
-      ' entity.name.tag': palette.violet
+      ' entity.name.tag': [palette.violet, 'italic']
     },
     ' meta.attribute': {
       ' punctuation.separator': palette.green,
       ' punctuation.attribute-shorthand': [palette.green, 'italic'],
       ' entity.other.attribute-name': [palette.orangeDark, 'italic'],
       '.directive': {
-        ' entity.other.attribute-name': palette.orange,
-        ' keyword.control': palette.orange
+        ' entity.other.attribute-name': [palette.orange, 'italic'],
+        ' keyword.control': [palette.orange, 'italic']
       }
     },
     ' keyword.operator': palette.green,

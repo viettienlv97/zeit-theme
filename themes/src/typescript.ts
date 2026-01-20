@@ -12,29 +12,33 @@ const DEFAULT_DATA = {
   ' punctuation.terminator': palette.blueDark,
   ' punctuation.accessor': palette.green,
   ' keyword.operator': palette.green,
+  ' storage.modifier': [palette.leon, 'italic'],
   ' keyword.control': {
     ' ': palette.green,
     '.import': palette.green,
     '.type': [palette.violet, 'italic'],
     '.from': palette.green,
     '.export': palette.green,
-    '.default': palette.violet
+    '.default': [palette.violet, 'italic'],
+    '.flow': [palette.leon, 'italic']
   },
-  ' string': [palette.red, 'italic'],
+  ' string': [palette.redDark, 'italic'],
+  ' string.regexp': [palette.greenDark, 'italic'],
   ' variable': {
     ' ': palette.blue,
-    '.other.object': [palette.redDark, 'italic']
+    '.other.object': [palette.red, 'italic']
   },
   ' support.type': [palette.violet, 'italic'],
-  ' storage.type': palette.violet,
-  ' entity.name.function': palette.orange,
+  ' support.class': [palette.violet, 'italic'],
+  ' storage.type': [palette.violet, 'italic'],
+  ' entity.name.function': [palette.orange, 'italic'],
   ' entity.name.type': [palette.violet, 'italic'],
   ' meta.object-literal.key': palette.orange,
   ' constant': {
     ' ': palette.green,
     '.language': [palette.leon, 'italic']
   },
-  ' comment': [palette.blueDark, 'italic']
+  ' comment': [palette.greenDark, 'italic']
 }
 
 export const typescriptScopes = {
