@@ -1,6 +1,6 @@
 import type { TokenColor } from '../types'
 export enum A {
-  RED = 'red',
+  RED = 'red'
 }
 
 export function mapScopesToTokenColors(
@@ -8,7 +8,7 @@ export function mapScopesToTokenColors(
   prefix: string = ''
 ): TokenColor[] {
   const result: TokenColor[] = []
-  const groupedByColor: Record<string, string[]> = {}
+  const groupedByColor: Record<string, [string, string, string[]]> = {}
 
   for (const [key, value] of Object.entries(scopeObj)) {
     // Skip special _default key for now, handle it separately
@@ -27,14 +27,29 @@ export function mapScopesToTokenColors(
       fullScope = key
     }
 
-    if (typeof value === 'string') {
-      // It's a color - add to group
-      ;(groupedByColor[value] ??= []).push(fullScope)
+    const pushGroup = (col: string, style: string) => {
+      const key = `${col}|${style ?? ''}`
+      groupedByColor[key] ??= [col, style ?? '', []]
+      groupedByColor[key][2].push(fullScope)
+    }
+
+    if (Array.isArray(value)) {
+      // It's an array like ['#fff', 'italic']
+      const [col, style] = value as [string, string?]
+      pushGroup(col, style ?? '')
+    } else if (typeof value === 'string') {
+      // It's a color string like '#fff'
+      pushGroup(value, '')
     } else if (typeof value === 'object' && value !== null) {
-      // Check if there's a _default value at this level
-      if ('_default' in value && typeof value._default === 'string') {
-        const defaultColor = value._default
-        ;(groupedByColor[defaultColor] ??= []).push(fullScope)
+      // Check if there's a _default value at this level (string or array)
+      if ('_default' in value) {
+        const def = value._default
+        if (Array.isArray(def)) {
+          const [col, style] = def as [string, string?]
+          pushGroup(col, style ?? '')
+        } else if (typeof def === 'string') {
+          pushGroup(def, '')
+        }
       }
       // Recurse into nested object
       result.push(...mapScopesToTokenColors(value, fullScope))
@@ -42,10 +57,11 @@ export function mapScopesToTokenColors(
   }
 
   // Convert groups to TokenColor objects
-  for (const [color, scopes] of Object.entries(groupedByColor)) {
+  for (const entry of Object.values(groupedByColor)) {
+    const [color, fontStyle, scopes] = entry
     result.push({
       scope: scopes,
-      settings: { foreground: color }
+      settings: { foreground: color, fontStyle: fontStyle || '' }
     })
   }
 

@@ -30,6 +30,9 @@ async function build(): Promise<void> {
   const cssTokenColors = (await import(`../src/css.ts?${Date.now()}`)).default
   const scssTokenColors = (await import(`../src/scss.ts?${Date.now()}`)).default
   const jsonTokenColors = (await import(`../src/json.ts?${Date.now()}`)).default
+  const envTokenColors = (await import(`../src/env.ts?${Date.now()}`)).default
+  const othersTokenColors = (await import(`../src/others.ts?${Date.now()}`))
+    .default
 
   const typescriptTokenColors = (
     await import(`../src/typescript.ts?${Date.now()}`)
@@ -42,7 +45,9 @@ async function build(): Promise<void> {
     ...cssTokenColors,
     ...scssTokenColors,
     ...typescriptTokenColors,
-    ...jsonTokenColors
+    ...jsonTokenColors,
+    ...envTokenColors,
+    ...othersTokenColors
   ]
 
   const theme: Theme = {

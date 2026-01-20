@@ -1,19 +1,9 @@
+import { mapScopesToTokenColors } from './utils'
+import { palette } from './colors'
 import type { TokenColor } from './types'
 
-// CSS Token Colors Configuration
-const cssTokenColors: TokenColor[] = [
-  {
-    // CSS property names (color, display, margin, etc.)
-    name: 'CSS property names',
-    scope: ['support.type.property-name.css'],
-    settings: { foreground: '#94e2d5' }
-  },
-  {
-    // CSS numeric values (px, rem, %, numbers)
-    name: 'CSS numbers',
-    scope: ['constant.numeric.css'],
-    settings: { foreground: '#fab387' }
-  }
-]
-
+const cssScopes = {
+  'source.css': {}
+}
+const cssTokenColors: TokenColor[] = [...mapScopesToTokenColors(cssScopes)]
 export default cssTokenColors

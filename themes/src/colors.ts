@@ -1,15 +1,19 @@
 // Color palette (not used in theme, just for reference)
 export const palette = {
   red: '#ff2a6d',
-  redTrans: '#FF2A6EA9',
+  redDark: '#cc2055',
   leon: '#05d9e7',
-  leonTrans: '#05D9E7A9',
+  leonDark: '#05aacc',
   green: '#8Afc5d',
-  greenTrans: '#8AFC5DA9',
+  greenDark: '#5ACC3A',
   violet: '#D600FF',
-  violetTrans: '#D600FFA9',
+  violetDark: '#A300CC',
   orange: '#ffae00',
-  orangeTrans: '#FFAE00A9'
+  orangeDark: '#cc8a00',
+  white: '#ffffff',
+  whiteDark: '#cccccc',
+  blue: '#00aaff',
+  blueDark: '#008ecc'
 }
 
 // VS Code workbench colors
