@@ -1,4 +1,4 @@
-import { A, mapScopesToTokenColors } from './utils'
+import { mapScopesToTokenColors } from './utils'
 import { palette } from './colors'
 import { typescriptScopes } from './typescript'
 import type { TokenColor } from './types'
@@ -17,6 +17,7 @@ import type { TokenColor } from './types'
  */
 const vueScopes = {
   'text.html.vue': {
+    ' ': [palette.redDark, 'italic'],
     ' entity.name.tag': palette.green,
     ' entity.name.function': [palette.orange, 'italic'],
     ' punctuation.definition.tag': palette.white,

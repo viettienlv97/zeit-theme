@@ -4,6 +4,7 @@ import type { TokenColor } from './types'
 
 const jsonScopes = {
   'source.json': {
+    ' ': [palette.redDark, 'italic'],
     ' support.type': [palette.violet, 'italic'],
     ' punctuation.separator': palette.green,
     ' string': [palette.green, 'italic'],

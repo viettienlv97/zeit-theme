@@ -4,6 +4,7 @@ import type { TokenColor } from './types'
 
 const scssScopes = {
   'source.css.scss': {
+    ' ': [palette.redDark, 'italic'],
     ' keyword.control.at-rule': palette.orange,
     ' string': [palette.redDark, 'italic'],
     ' comment': [palette.blueDark, 'italic'],

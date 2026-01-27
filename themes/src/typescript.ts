@@ -9,6 +9,7 @@ import type { TokenColor } from './types'
  */
 
 const DEFAULT_DATA = {
+  ' ': [palette.redDark, 'italic'],
   ' punctuation.terminator': palette.blueDark,
   ' punctuation.accessor': palette.green,
   ' keyword.operator': [palette.green, 'italic'],
