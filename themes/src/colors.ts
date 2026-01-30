@@ -19,8 +19,8 @@ export const palette = {
 // VS Code workbench colors
 export const colors = {
   'editor.background': '#111827',
-  'sideBar.background': '#1e1e2e',
-  'activityBar.background': '#1e1e2e',
-  'statusBar.background': '#1e1e2e',
-  'panel.background': '#1e1e2e'
+  'sideBar.background': '#111827',
+  'activityBar.background': '#111827',
+  'statusBar.background': '#111827',
+  'panel.background': '#111827'
 }
